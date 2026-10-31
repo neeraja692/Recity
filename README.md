@@ -8,7 +8,7 @@ $$\text{Discover} \longrightarrow \text{Analyse} \longrightarrow \text{Imagine} 
 
 ---
 
-## 🌟 Key Architecture & Separate-Files Structure
+## 🌟 Key Architecture  and Separate-Files Structure
 
 ReCity is engineered with a clean modular architecture separating the high-performance Python FastAPI backend, SQLite database persistence, and a modern responsive, mobile-first PWA frontend:
 
