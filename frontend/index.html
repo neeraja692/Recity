@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReCity — AI-Powered Urban Space Revival & Community Planning Platform</title>
+  <meta name="description" content="Discover neglected urban plots, generate 3 AI-powered transformations, match community needs, estimate itemized costs, vote, and prioritize urban revitalization. SEVA First Innovation Challenge.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <!-- Chart.js for Impact Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+  <!-- ReCity Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar">
+    <div class="brand-wrapper">
+      <div class="brand-logo">R</div>
+      <div class="brand-title">
+        <h2>ReCity</h2>
+        <span class="brand-tag">Urban Revival AI</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <button class="nav-link active" data-view="overview">
+        <span class="nav-icon">🏙️</span>
+        <span>City Overview</span>
+      </button>
+      <button class="nav-link" data-view="map">
+        <span class="nav-icon">🗺️</span>
+        <span>Interactive Map</span>
+      </button>
+      <button class="nav-link" data-view="spaces">
+        <span class="nav-icon">🔍</span>
+        <span>Explore Spaces</span>
+      </button>
+      <button class="nav-link" data-view="space-detail">
+        <span class="nav-icon">✨</span>
+        <span>3 Multiple Futures</span>
+      </button>
+      <button class="nav-link" data-view="register">
+        <span class="nav-icon">➕</span>
+        <span>Report a Space</span>
+      </button>
+      <button class="nav-link" data-view="impact">
+        <span class="nav-icon">📊</span>
+        <span>Impact Dashboard</span>
+      </button>
+      <button class="nav-link" data-view="admin">
+        <span class="nav-icon">🏛️</span>
+        <span>Municipal Admin Hub</span>
+      </button>
+      <button class="nav-link" data-view="team">
+        <span class="nav-icon">👥</span>
+        <span>Team Showcase</span>
+      </button>
+    </nav>
+
+    <div class="team-badge-card">
+      <h4>SEVA First Innovation</h4>
+      <p>5-Member Team Project: Discover → Analyse → Imagine → Match → Estimate → Vote → Prioritise</p>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="main-wrapper">
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="page-headline">
+        <h1 id="pageHeading">AI-Powered Urban Revival</h1>
+        <span>Transforming neglected urban pockets into vibrant, sustainable community assets</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="badge-tag">
+          <span class="badge-live-pulse"></span>
+          <span>FastAPI Backend Connected</span>
+        </div>
+        <button class="btn-primary" onclick="App.navigate('register')">
+          ➕ Report Space
+        </button>
+      </div>
+    </header>
+
+    <!-- ==================== VIEW 1: CITY OVERVIEW / LANDING ==================== -->
+    <section class="view-section active" id="view-overview">
+      
+      <!-- Hero Banner -->
+      <div class="hero-card">
+        <span class="hero-pill">Innovation Challenge 2026</span>
+        <h2>Every forgotten urban space has a viable community future.</h2>
+        <p>
+          ReCity empowers citizens to photograph and register vacant plots, while our AI engine analyzes local deficits, generates three tangible spatial futures, provides itemized cost estimates, and calculates smart redevelopment priority scores.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn-primary" style="background:#ffffff; color:var(--primary);" onclick="App.navigate('register')">
+            Report a Neglected Plot →
+          </button>
+          <button class="btn-secondary" style="background:rgba(255,255,255,0.1); color:#ffffff; border-color:rgba(255,255,255,0.3);" onclick="App.openSpaceDetail(1)">
+            Explore Live Visual Transformation ✨
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Counters -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-header"><span>Spaces Mapped</span><span>📍</span></div>
+          <div class="stat-value" id="statTotalSpaces">5</div>
+          <div class="stat-delta">Across 4 City Wards</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-header"><span>Total Land Area</span><span>📐</span></div>
+          <div class="stat-value" id="statTotalArea">2,220 m²</div>
+          <div class="stat-delta">Underutilized land</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-header"><span>Potential Beneficiaries</span><span>👥</span></div>
+          <div class="stat-value" id="statBeneficiaries">6,216</div>
+          <div class="stat-delta">Within 500m walk</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-header"><span>Citizen Votes</span><span>🗳️</span></div>
+          <div class="stat-value" id="statTotalVotes">726+</div>
+          <div class="stat-delta">Community consensus</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-header"><span>Avg. Need Match</span><span>🎯</span></div>
+          <div class="stat-value" id="statAvgFit">82.2%</div>
+          <div class="stat-delta">Heuristic AI engine</div>
+        </div>
+      </div>
+
+      <!-- Dual Column: Interactive Map & Recent Sites -->
+      <div class="dual-grid">
+        <div class="card">
+          <div class="card-title-row">
+            <h3>Geographic Space Intelligence</h3>
+            <span class="badge-tag">OpenStreetMap Live</span>
+          </div>
+          <div id="leafletMap" style="height: 380px;"></div>
+          <div style="display:flex; gap:16px; margin-top:14px; font-size:11.5px; flex-wrap:wrap;">
+            <span><i style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981; margin-right:4px;"></i>Green Space</span>
+            <span><i style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#f43f5e; margin-right:4px;"></i>Children Play</span>
+            <span><i style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#8b5cf6; margin-right:4px;"></i>Learning Hub</span>
+            <span><i style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#f59e0b; margin-right:4px;"></i>Civic Plazas</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title-row">
+            <h3>Prioritized Revivals</h3>
+            <button class="btn-secondary" style="font-size:12px; padding:6px 12px;" onclick="App.navigate('spaces')">
+              View All →
+            </button>
+          </div>
+          <div id="recentSitesList"></div>
+          
+          <div style="margin-top:20px; background:var(--bg-subtle); padding:16px; border-radius:var(--radius-sm); border-left:3px solid var(--accent);">
+            <h4 style="font-size:13px; margin-bottom:4px; color:var(--primary);">Decision-Support Workflow</h4>
+            <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
+              Discover → Analyse → Imagine → Match → Estimate → Vote → Prioritise. Not just complaints—practical community solutions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VIEW 2: INTERACTIVE MAP ==================== -->
+    <section class="view-section" id="view-map">
+      <div class="card">
+        <div class="card-title-row">
+          <div>
+            <h3>City-Wide Neglected Space Registry</h3>
+            <span style="font-size:12px; color:var(--text-muted);">Click any map pin to view site details, community proposals, and cast votes.</span>
+          </div>
+          <button class="btn-primary" onclick="App.navigate('register')">
+            ➕ Add Space at Coordinates
+          </button>
+        </div>
+        <div id="leafletMapFull" style="width:100%; height:620px; border-radius:var(--radius-md);"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: EXPLORE SPACES DIRECTORY ==================== -->
+    <section class="view-section" id="view-spaces">
+      
+      <!-- Filter Controls -->
+      <div class="card" style="margin-bottom: 24px; padding: 18px 24px;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px;">
+          <input type="text" id="searchSpaces" placeholder="🔍 Search spaces by name or neighborhood..." style="padding:10px 14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm);">
+          
+          <select id="filterWard" style="padding:10px 14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm);">
+            <option value="">All Wards</option>
+            <option value="Ward 12 - Central">Ward 12 - Central</option>
+            <option value="Ward 7 - South">Ward 7 - South</option>
+            <option value="Ward 19 - East">Ward 19 - East</option>
+            <option value="Ward 4 - North">Ward 4 - North</option>
+          </select>
+
+          <select id="filterCondition" style="padding:10px 14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm);">
+            <option value="">All Conditions</option>
+            <option value="Neglected Plot">Neglected Plot</option>
+            <option value="Underused Paved Area">Underused Paved Area</option>
+            <option value="Illegal Dumping Ground">Illegal Dumping Ground</option>
+            <option value="Vacant Lot">Vacant Lot</option>
+          </select>
+
+          <select id="filterNeed" style="padding:10px 14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm);">
+            <option value="">All Needs</option>
+            <option value="Green Space & Cooling">Green Space & Cooling</option>
+            <option value="Children Play Area">Children Play Area</option>
+            <option value="Public Seating & Seniors">Public Seating & Seniors</option>
+            <option value="Rainwater Retention">Rainwater Retention</option>
+            <option value="Community Learning & Skill Center">Community Learning & Skill Center</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Spaces Card Grid -->
+      <div class="spaces-grid" id="spacesGrid"></div>
+
+    </section>
+
+    <!-- ==================== VIEW 4: SPACE DETAIL & 3 MULTIPLE FUTURES ==================== -->
+    <section class="view-section" id="view-space-detail">
+
+      <!-- Breadcrumbs and Space Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 24px; flex-wrap:wrap; gap:16px;">
+        <div>
+          <button class="text-btn" style="font-size:12px; color:var(--text-muted); margin-bottom:6px;" onclick="App.navigate('spaces')">
+            ← Back to All Spaces
+          </button>
+          <h2 id="detailTitle" style="font-family:var(--font-title); font-size:26px; font-weight:800; color:var(--text-main);">
+            Carlton Corner Neglected Lot
+          </h2>
+          <p id="detailLocation" style="font-size:13px; color:var(--text-muted);">Corner of 4th Cross & 8th Main, Carlton Apts · Ward 12 - Central</p>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span class="badge-tag" id="detailStatusBadge">Community Voting</span>
+          <span class="badge-tag priority-high" id="detailPriorityBadge" onclick="App.openPriorityModal(App.state.selectedSpace?.id)" style="cursor:pointer;">
+            Score: 84.5 (High Priority)
+          </span>
+          <button class="btn-secondary" onclick="App.exportDossierModal(App.state.selectedSpace?.id)">
+            Export Dossier 📄
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature Highlight: Before-and-After AI Visualizer -->
+      <div class="card" style="margin-bottom: 28px;">
+        <div class="card-title-row">
+          <div>
+            <h3>Before-and-After AI Visualisation</h3>
+            <span style="font-size:12px; color:var(--text-muted);">
+              Drag the center slider left and right to inspect the transformed urban future.
+            </span>
+          </div>
+          <span class="badge-tag" style="background:#fef3c7; color:#92400e; border-color:#fde68a;">
+            💡 Proposed Concepts (Decision-Support)
+          </span>
+        </div>
+
+        <!-- Slider Container -->
+        <div class="visualizer-container" id="visualizerContainer">
+          <!-- Background: After Concept Image -->
+          <img class="visualizer-img" id="visualizerAfterImg" src="assets/after_garden.jpg" alt="After Transformation Concept">
+          <span class="visualizer-badge-after" id="badgeAfterLabel">Concept A: Pocket Garden</span>
+
+          <!-- Overlay: Before Neglected Image -->
+          <div class="visualizer-overlay" id="visualizerOverlay">
+            <img class="visualizer-img" id="visualizerBeforeImg" src="assets/before_plot.jpg" alt="Current Neglected Plot">
+          </div>
+          <span class="visualizer-badge-before">Current Neglected State</span>
+
+          <!-- Draggable Handle -->
+          <div class="slider-handle" id="sliderHandle">
+            ↔
+          </div>
+        </div>
+
+        <!-- Concept Switcher Bar -->
+        <div class="concept-selector-bar">
+          <button class="btn-concept-tab active" data-concept="A" onclick="App.switchConceptVisual('A')">
+            🌱 Concept A: Community Pocket Garden
+          </button>
+          <button class="btn-concept-tab" data-concept="B" onclick="App.switchConceptVisual('B')">
+            🛝 Concept B: Children's Play Area
+          </button>
+          <button class="btn-concept-tab" data-concept="C" onclick="App.switchConceptVisual('C')">
+            📚 Concept C: Learning & Skill Pavilion
+          </button>
+        </div>
+      </div>
+
+      <!-- Space Facts Card -->
+      <div class="card" style="margin-bottom: 28px;">
+        <h4 style="font-size:15px; margin-bottom:12px;">Spatial Audit & Site Details</h4>
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; font-size:12.5px;">
+          <div style="background:var(--bg-subtle); padding:12px; border-radius:8px;">
+            <span style="color:var(--text-muted); display:block; font-size:11px;">Survey Area</span>
+            <strong id="detailArea" style="font-size:16px; color:var(--primary);">520 m²</strong>
+          </div>
+          <div style="background:var(--bg-subtle); padding:12px; border-radius:8px;">
+            <span style="color:var(--text-muted); display:block; font-size:11px;">Current Condition</span>
+            <strong id="detailCondition" style="font-size:16px; color:var(--text-main);">Neglected Plot</strong>
+          </div>
+          <div style="background:var(--bg-subtle); padding:12px; border-radius:8px;">
+            <span style="color:var(--text-muted); display:block; font-size:11px;">Primary Ward Need</span>
+            <strong id="detailNeed" style="font-size:16px; color:var(--accent);">Green Space & Cooling</strong>
+          </div>
+          <div style="background:var(--bg-subtle); padding:12px; border-radius:8px;">
+            <span style="color:var(--text-muted); display:block; font-size:11px;">Constraints Flagged</span>
+            <span id="detailConstraints" style="font-size:12px; color:var(--text-main); font-weight:600;">Check drainage line</span>
+          </div>
+        </div>
+        <p id="detailDescription" style="font-size:13px; color:var(--text-muted); margin-top:14px; line-height:1.5;"></p>
+      </div>
+
+      <!-- Multiple-Future Generator (3 Alternative Transformations) -->
+      <div class="section-headline" style="margin-bottom:16px;">
+        <h3 style="font-family:var(--font-title); font-size:22px; font-weight:800; color:var(--text-main);">
+          3 Multiple Futures — Compare & Cast Your Community Vote
+        </h3>
+        <p style="font-size:13px; color:var(--text-muted);">
+          Compare suitability scores, phased temporary-to-permanent timelines, preliminary costs, and vote for your neighborhood priority.
+        </p>
+      </div>
+
+      <div class="proposals-comparison-grid" id="proposalsContainer"></div>
+
+      <!-- Community Suggestions & Discussion -->
+      <div class="card comments-wrap">
+        <h3 style="font-family:var(--font-title); font-size:18px; margin-bottom:16px;">
+          Community Voice & Resident Suggestions
+        </h3>
+        
+        <form id="addCommentForm" style="margin-bottom:20px; display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:12px; align-items:end;">
+          <div>
+            <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Your Idea or Suggestion</label>
+            <input type="text" id="commentText" required placeholder="e.g. Include solar lights and compost bins..." style="width:100%; padding:10px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-sm);">
+          </div>
+          <div>
+            <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Your Name / Association</label>
+            <input type="text" id="commentAuthor" placeholder="e.g. Sunita M., Local Resident" style="width:100%; padding:10px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-sm);">
+          </div>
+          <div style="display:flex; gap:8px;">
+            <select id="commentRole" style="padding:10px; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font-size:12px; flex:1;">
+              <option value="Local Resident">Local Resident</option>
+              <option value="Urban Planner">Urban Planner</option>
+              <option value="Senior Citizen">Senior Citizen</option>
+              <option value="Youth Volunteer">Youth Volunteer</option>
+            </select>
+            <button type="submit" class="btn-primary" style="padding:10px 16px;">Post Idea</button>
+          </div>
+        </form>
+
+        <div id="commentsList"></div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VIEW 5: REGISTER A SPACE ==================== -->
+    <section class="view-section" id="view-register">
+      <div class="card" style="max-width:960px; margin: 0 auto;">
+        <div class="card-title-row">
+          <div>
+            <h3>Smart Space Reporting & AI Multiple-Future Synthesis</h3>
+            <span style="font-size:12.5px; color:var(--text-muted);">
+              Submit site observations. ReCity AI will analyze deficits, estimate costs, and generate 3 transformation proposals.
+            </span>
+          </div>
+        </div>
+
+        <form id="spaceRegisterForm" class="form-grid">
+          <!-- Left Column: Form Fields -->
+          <div>
+            <div class="form-group">
+              <label for="regTitle">Space Title / Nickname *</label>
+              <input type="text" id="regTitle" name="title" required placeholder="e.g. Corner vacant lot near primary school">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="regLocation">Location / Street Landmark *</label>
+                <input type="text" id="regLocation" name="location_name" required placeholder="e.g. 5th Cross, 100ft Road">
+              </div>
+              <div class="form-group">
+                <label for="regWard">City Ward *</label>
+                <select id="regWard" name="ward" required>
+                  <option value="Ward 12 - Central">Ward 12 - Central</option>
+                  <option value="Ward 7 - South">Ward 7 - South</option>
+                  <option value="Ward 19 - East">Ward 19 - East</option>
+                  <option value="Ward 4 - North">Ward 4 - North</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="regArea">Approximate Area (m²) *</label>
+                <input type="number" id="regArea" name="area_sqm" required min="20" max="50000" placeholder="e.g. 450">
+              </div>
+              <div class="form-group">
+                <label for="regCondition">Current Condition *</label>
+                <select id="regCondition" name="current_condition" required>
+                  <option value="Neglected Plot">Neglected Plot</option>
+                  <option value="Underused Paved Area">Underused Paved Area</option>
+                  <option value="Illegal Dumping Ground">Illegal Dumping Ground</option>
+                  <option value="Vacant Lot">Vacant Lot</option>
+                  <option value="Roadside Strip">Roadside Strip</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="regType">Space Morphology *</label>
+                <select id="regType" name="space_type" required>
+                  <option value="Corner Lot">Corner Lot</option>
+                  <option value="Open Ground">Open Ground</option>
+                  <option value="Paved Plaza">Paved Plaza</option>
+                  <option value="Roadside Strip">Roadside Strip</option>
+                  <option value="Under-Flyover">Under-Flyover</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="regNeed">Primary Community Need *</label>
+                <select id="regNeed" name="primary_community_need" required>
+                  <option value="Green Space & Cooling">Green Space & Cooling</option>
+                  <option value="Children Play Area">Children Play Area</option>
+                  <option value="Public Seating & Seniors">Public Seating & Seniors</option>
+                  <option value="Rainwater Retention">Rainwater Retention</option>
+                  <option value="Community Learning & Skill Center">Community Learning & Skill Center</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="regDescription">Observations & Community Context</label>
+              <textarea id="regDescription" name="description" rows="3" placeholder="Describe pedestrian access, neighboring schools, shade, trash accumulation, or sunlight..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="regConstraints">Constraints (Soil, Drainage, Ownership, Safety)</label>
+              <input type="text" id="regConstraints" name="constraints" placeholder="e.g. Underground utility cables, culvert nearby, boundary wall needed">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>GPS Latitude</label>
+                <input type="number" step="0.0001" id="regLatitude" name="latitude" value="12.9716">
+              </div>
+              <div class="form-group">
+                <label>GPS Longitude</label>
+                <input type="number" step="0.0001" id="regLongitude" name="longitude" value="77.5946">
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="btnSubmitSpace" style="width:100%; justify-content:center; padding:14px; font-size:15px; margin-top:10px;">
+              ✨ Synthesize 3 AI Futures & Register Space →
+            </button>
+          </div>
+
+          <!-- Right Column: Site Photograph Dropzone & AI Guidance -->
+          <div>
+            <div class="form-group">
+              <label>Site Survey Photograph</label>
+              <div class="file-dropzone" onclick="document.getElementById('regPhoto').click()">
+                <div style="font-size:32px; margin-bottom:8px;">📷</div>
+                <strong style="display:block; font-size:13px; color:var(--primary); margin-bottom:4px;">
+                  Upload Site Photograph
+                </strong>
+                <span style="font-size:11.5px; color:var(--text-muted); display:block;">
+                  Drag & drop or browse from phone / device. AI analyzes visual features for suitability matching.
+                </span>
+                <input type="file" id="regPhoto" name="photo" accept="image/*" style="display:none;">
+                <div id="photoUploadStatus" style="font-size:11.5px; color:var(--accent); margin-top:8px;"></div>
+              </div>
+            </div>
+
+            <div style="background:#f4f9f6; border-radius:var(--radius-sm); padding:18px; border:1px solid var(--border-light); margin-top:20px;">
+              <h4 style="font-size:13.5px; font-weight:800; color:var(--primary); margin-bottom:8px;">
+                How ReCity AI Processes Submissions
+              </h4>
+              <ul style="font-size:12px; color:var(--text-muted); line-height:1.6; padding-left:18px;">
+                <li><strong>1. Spatial Morphology:</strong> Computes available footprint and buffers.</li>
+                <li><strong>2. Need Matching:</strong> Cross-references ward-level deficits (e.g. green deficiency or child play deficit).</li>
+                <li><strong>3. 3-Futures Engine:</strong> Creates Concept A (Garden), Concept B (Play), Concept C (Learning Hub).</li>
+                <li><strong>4. Cost Schedule:</strong> Generates CapEx, OpEx, and Tactical Phase 1 budget estimates.</li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 6: IMPACT DASHBOARD ==================== -->
+    <section class="view-section" id="view-impact">
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title-row">
+          <div>
+            <h3>City-Wide Environmental & Community Impact Dashboard</h3>
+            <span style="font-size:12px; color:var(--text-muted);">Aggregate social equity, green cover gains, and carbon sequestration projections.</span>
+          </div>
+          <span class="badge-tag">Real-Time Data Feed</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-header"><span>Carbon Offset</span><span>🍃</span></div>
+            <div class="stat-value">0.3 t/yr</div>
+            <div class="stat-delta">CO₂ Sequestration</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-header"><span>Green Cover Created</span><span>🌳</span></div>
+            <div class="stat-value">1,450 m²</div>
+            <div class="stat-delta">Permeable canopy</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-header"><span>Heat Mitigation</span><span>🌡️</span></div>
+            <div class="stat-value">-2.4 °C</div>
+            <div class="stat-delta">Localized cooling</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-header"><span>Walking Access</span><span>🚶</span></div>
+            <div class="stat-value">5 mins</div>
+            <div class="stat-delta">Average proximity</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-header"><span>Avg Fit Index</span><span>⭐</span></div>
+            <div class="stat-value">82.2%</div>
+            <div class="stat-delta">Community matched</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div style="display:grid; grid-template-columns: 1.3fr 1fr; gap:24px; margin-bottom:24px;">
+        <div class="card">
+          <h3 style="font-size:16px; margin-bottom:14px;">Ward-Wise Identified Land (m²) vs Community Demand</h3>
+          <div style="position:relative; height:320px;">
+            <canvas id="wardChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:16px; margin-bottom:14px;">Community Proposal Consensus Distribution</h3>
+          <div style="position:relative; height:320px;">
+            <canvas id="votingChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:16px; margin-bottom:14px;">Multi-Dimensional Impact Radar: Concept A vs Concept B vs Concept C</h3>
+        <div style="position:relative; height:360px;">
+          <canvas id="impactRadarCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 7: MUNICIPAL ADMIN HUB ==================== -->
+    <section class="view-section" id="view-admin">
+      <div class="card">
+        <div class="card-title-row">
+          <div>
+            <h3>Municipal Decision-Support & Priority Queue</h3>
+            <span style="font-size:12px; color:var(--text-muted);">
+              Manage reported plots, verify feasibility, transition workflow stages, and export official project briefs.
+            </span>
+          </div>
+          <span class="badge-tag">Planning Officer Portal</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Space Name & Ward</th>
+                <th>Area</th>
+                <th>Priority Score</th>
+                <th>Leading Proposal</th>
+                <th>Workflow Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminSpacesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 8: TEAM SHOWCASE ==================== -->
+    <section class="view-section" id="view-team">
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title-row">
+          <div>
+            <h3>SEVA First Innovation Challenge — Team Deliverables</h3>
+            <span style="font-size:12.5px; color:var(--text-muted);">
+              Clear, practical division of responsibilities across our five-member student engineering team.
+            </span>
+          </div>
+          <span class="badge-tag" style="background:#eaf6ef; color:var(--primary); font-weight:800;">5 Members · Full Stack</span>
+        </div>
+
+        <div class="team-member-grid">
+          <!-- Member 1 -->
+          <div class="member-card">
+            <div class="member-avatar">M1</div>
+            <div class="member-role">Frontend & UI/UX</div>
+            <div class="member-name">Member 1</div>
+            <div class="member-deliverable">
+              <strong>Deliverable:</strong> Interactive Landing Page, Before/After Visualizer Slider, Space Report Wizard, and 3-Futures Cards.
+            </div>
+          </div>
+
+          <!-- Member 2 -->
+          <div class="member-card">
+            <div class="member-avatar">M2</div>
+            <div class="member-role">Backend & Database</div>
+            <div class="member-name">Member 2</div>
+            <div class="member-deliverable">
+              <strong>Deliverable:</strong> FastAPI microservices, SQLite schema models, CRUD APIs, file upload storage, and CORS routing.
+            </div>
+          </div>
+
+          <!-- Member 3 -->
+          <div class="member-card">
+            <div class="member-avatar">M3</div>
+            <div class="member-role">AI & Spatial Reasoning</div>
+            <div class="member-name">Member 3</div>
+            <div class="member-deliverable">
+              <strong>Deliverable:</strong> Multiple-Future Generator, Community Need Matching Engine, and Phased Tactical Urbanism planning logic.
+            </div>
+          </div>
+
+          <!-- Member 4 -->
+          <div class="member-card">
+            <div class="member-avatar">M4</div>
+            <div class="member-role">Maps & Impact Analytics</div>
+            <div class="member-name">Member 4</div>
+            <div class="member-deliverable">
+              <strong>Deliverable:</strong> Leaflet.js interactive OpenStreetMap, Chart.js multi-dimensional charts, and Priority Score composite formula.
+            </div>
+          </div>
+
+          <!-- Member 5 -->
+          <div class="member-card">
+            <div class="member-avatar">M5</div>
+            <div class="member-role">Integration & Feasibility</div>
+            <div class="member-name">Member 5</div>
+            <div class="member-deliverable">
+              <strong>Deliverable:</strong> Itemized Cost Estimator, Official Redevelopment Dossier PDF generator, and municipal governance workflow.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- ==================== MODALS ==================== -->
+
+<!-- 1. Cost Breakdown Modal -->
+<div class="modal-backdrop" id="costModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" onclick="App.closeAllModals()">×</button>
+    <div id="costModalContent"></div>
+  </div>
+</div>
+
+<!-- 2. Priority Factors Modal -->
+<div class="modal-backdrop" id="priorityModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" onclick="App.closeAllModals()">×</button>
+    <div id="priorityModalContent"></div>
+  </div>
+</div>
+
+<!-- 3. Official Dossier Export Modal -->
+<div class="modal-backdrop" id="dossierModal">
+  <div class="modal-box" style="max-width:880px;">
+    <button class="modal-close-btn" onclick="App.closeAllModals()">×</button>
+    <div id="dossierModalContent"></div>
+  </div>
+</div>
+
+<!-- ==================== TOAST NOTIFICATION ==================== -->
+<div class="toast-notice" id="toastNotice"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<!-- ReCity Core Scripts -->
+<script src="js/api.js"></script>
+<script src="js/map.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
