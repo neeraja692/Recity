@@ -810,6 +810,9 @@ const App = {
   }
 };
 
+// Expose globally so external hooks and inline handlers have reliable access
+window.App = App;
+
 // Start application when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   App.init();

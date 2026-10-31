@@ -228,6 +228,11 @@ app.include_router(proposals.router)
 app.include_router(analytics.router)
 app.include_router(admin.router)
 
+# Community Extension (Citizen Verification, Duplicate Detection, Crowdfunding & Volunteers)
+from .routers import community
+community.init_community_models(engine)
+app.include_router(community.router)
+
 # Mount directories
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
@@ -248,6 +253,27 @@ def serve_index():
     if os.path.exists(index_path):
         return FileResponse(index_path)
     return {"message": "ReCity Backend API is online. Access documentation at /docs"}
+
+@app.get("/manifest.json")
+def get_manifest():
+    p = os.path.join(FRONTEND_DIR, "manifest.json")
+    if os.path.exists(p):
+        return FileResponse(p)
+    return FileResponse(os.path.join(BASE_DIR, "manifest.json"))
+
+@app.get("/sw.js")
+def get_sw():
+    p = os.path.join(FRONTEND_DIR, "sw.js")
+    if os.path.exists(p):
+        return FileResponse(p, media_type="application/javascript")
+    return FileResponse(os.path.join(BASE_DIR, "sw.js"), media_type="application/javascript")
+
+@app.get("/icon.svg")
+def get_icon():
+    p = os.path.join(ASSETS_DIR, "icon.svg")
+    if os.path.exists(p):
+        return FileResponse(p, media_type="image/svg+xml")
+    return FileResponse(os.path.join(FRONTEND_DIR, "icon.svg"), media_type="image/svg+xml")
 
 if __name__ == "__main__":
     import uvicorn
