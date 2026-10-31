@@ -4,7 +4,10 @@
 **Problem:** Cities contain hundreds of neglected plots, vacant underutilized corners, and dead urban spaces that could provide vital community amenities, green cover, recreation, and cooling. Today, identifying suitable uses, estimating preliminary costs, evaluating local deficits, and mobilizing community consensus is fragmented and slow.
 
 **Solution:** **ReCity** completes the civic decision-making loop:
-$$\text{Discover} \longrightarrow \text{Analyse} \longrightarrow \text{Imagine} \longrightarrow \text{Match} \longrightarrow \text{Estimate} \longrightarrow \text{Vote} \longrightarrow \text{Action (Crowdfund & Volunteer)} \longrightarrow \text{Prioritise}$$
+
+> **Discover** ➔ **Analyse** ➔ **Imagine** ➔ **Match** ➔ **Estimate** ➔ **Vote** ➔ **Action (Crowdfund & Volunteer)** ➔ **Prioritise**
+
+$$\text{Discover} \longrightarrow \text{Analyse} \longrightarrow \text{Imagine} \longrightarrow \text{Match} \longrightarrow \text{Estimate} \longrightarrow \text{Vote} \longrightarrow \text{Action (Crowdfund and Volunteer)} \longrightarrow \text{Prioritise}$$
 
 ---
 
