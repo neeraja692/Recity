@@ -1,20 +1,21 @@
-# ReCity Prototype
-A responsive front-end demo for the SEVA First Innovation Challenge concept.
+# ReCity Platform — AI-Powered Urban Space Revival
+SEVA First Innovation Challenge 2026
 
-## Run it
-1. Extract the ZIP.
-2. Open `index.html` in a modern browser (Chrome/Edge recommended).
+## Overview
+ReCity connects urban vacant space reporting, automated AI spatial generation, community voting, and citizen-led action.
 
-## Included
-- Overview dashboard and illustrative map
-- Sample underutilised-space list with filters
-- Register-space form (runs locally in the browser session)
-- Rule-based reuse recommendations with transparent fit scores
-- Impact scenario calculator
-- Responsive layout for desktop and mobile
+## Quick Start
+1. Install dependencies:
+   pip install -r requirements.txt
+2. Run backend:
+   python -m uvicorn backend.main:app --reload --port 8000
+3. Open in browser:
+   http://127.0.0.1:8000 (or double-click run.bat on Windows)
 
-## Important limitations
-- This is a front-end prototype. It does not include a backend, database, real geocoding, live maps, authentication, or a trained AI model.
-- Map pins and dashboard metrics are illustrative demo data.
-- Recommendation scores, costs and impacts are not validated engineering estimates.
-- Before any real implementation, validate site ownership, permissions, safety, accessibility, drainage, environmental constraints, cost and community needs.
+## Key Features & New Additions
+- Smart space reporting with automated AI-assisted multiple-future synthesis.
+- Citizen Verification: Upvote ("Still Vacant?") or flag suspicious/inaccurate entries.
+- Duplicate Detection: Distance-based Haversine check within 75 meters.
+- Mobile-First PWA: Auto-detect GPS, direct rear-camera capture, and installable PWA with offline Service Worker.
+- Action Loop: Crowdfunding pledges with goal progress bar and volunteer workday sign-ups.
+- Responsive layout overrides ensuring smooth mobile rendering (<=900px) and high z-index floating reporting button.
