@@ -51,9 +51,9 @@ def get_space(space_id: int, db: Session = Depends(get_db)):
 def create_space(
     title: str = Form(...),
     location_name: str = Form(...),
-    ward: str = Form("Ward 12 - Central"),
-    latitude: float = Form(12.9716),
-    longitude: float = Form(77.5946),
+    ward: str = Form("K/W Ward - Andheri West, Mumbai"),
+    latitude: float = Form(19.0760),
+    longitude: float = Form(72.8777),
     area_sqm: float = Form(...),
     current_condition: str = Form("Neglected Plot"),
     space_type: str = Form("Open Ground"),

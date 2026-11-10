@@ -12,9 +12,9 @@ class Space(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     location_name = Column(String(200), nullable=False)
-    ward = Column(String(100), default="Ward 12 - Central")
-    latitude = Column(Float, default=12.9716)
-    longitude = Column(Float, default=77.5946)
+    ward = Column(String(100), default="K/W Ward - Andheri West, Mumbai")
+    latitude = Column(Float, default=19.0760)
+    longitude = Column(Float, default=72.8777)
     area_sqm = Column(Float, nullable=False)
     current_condition = Column(String(100), default="Neglected Plot")
     space_type = Column(String(100), default="Open Ground")
@@ -204,9 +204,9 @@ class SpaceBase(BaseModel):
 class SpaceCreate(BaseModel):
     title: str
     location_name: str
-    ward: str = "Ward 12 - Central"
-    latitude: Optional[float] = 12.9716
-    longitude: Optional[float] = 77.5946
+    ward: str = "K/W Ward - Andheri West, Mumbai"
+    latitude: Optional[float] = 19.0760
+    longitude: Optional[float] = 72.8777
     area_sqm: float
     current_condition: str
     space_type: str

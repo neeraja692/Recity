@@ -7,7 +7,7 @@ let markersLayer = null;
 let pickerMarker = null;
 
 const MapModule = {
-  init(containerId = "leafletMap", center = [12.9716, 77.5946], zoom = 13) {
+  init(containerId = "leafletMap", center = [19.0760, 72.8777], zoom = 12) {
     if (mapInstance) {
       mapInstance.remove();
     }
