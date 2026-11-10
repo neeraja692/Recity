@@ -3,7 +3,7 @@
  * Ensures reliable offline capability and fast load times.
  */
 
-const CACHE_NAME = 'recity-v1.1';
+const CACHE_NAME = 'recity-v1.2';
 const CORE_ASSETS = [
   '/',
   '/index.html',
