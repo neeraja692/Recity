@@ -81,7 +81,62 @@ class AuditLog(Base):
     details = Column(Text, default="")
 
 
+class Verification(Base):
+    __tablename__ = "verifications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"), nullable=False)
+    action = Column(String(50), nullable=False)  # 'confirm' or 'flag'
+    reason = Column(Text, nullable=True)
+    reporter_id = Column(String(100), default="anonymous")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Pledge(Base):
+    __tablename__ = "pledges"
+
+    id = Column(Integer, primary_key=True, index=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"), nullable=False)
+    backer_name = Column(String(100), nullable=False)
+    email = Column(String(150), nullable=False)
+    amount = Column(Float, nullable=False)
+    note = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Volunteer(Base):
+    __tablename__ = "volunteers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"), nullable=False)
+    name = Column(String(100), nullable=False)
+    email = Column(String(150), nullable=False)
+    phone = Column(String(50), nullable=True)
+    skills = Column(String(200), nullable=True)
+    availability = Column(String(100), default="Flexible / As Needed")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 # Pydantic Schemas for API serialization
+class VerificationCreate(BaseModel):
+    action: str  # 'confirm' or 'flag'
+    reason: Optional[str] = None
+    reporter_id: Optional[str] = "anonymous"
+
+
+class PledgeCreate(BaseModel):
+    backer_name: str
+    email: str
+    amount: float
+    note: Optional[str] = None
+
+
+class VolunteerCreate(BaseModel):
+    name: str
+    email: str
+    phone: Optional[str] = None
+    skills: Optional[str] = None
+    availability: Optional[str] = None
 class ConceptProposalBase(BaseModel):
     id: Optional[int] = None
     concept_key: str

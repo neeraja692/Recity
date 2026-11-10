@@ -9,7 +9,7 @@ from .database import engine, Base, SessionLocal
 from .models import Space, ConceptProposal, Comment, AuditLog
 from .services.ai_analyzer import generate_three_futures
 from .services.priority_scorer import calculate_priority_score
-from .routers import spaces, proposals, analytics, admin
+from .routers import spaces, proposals, analytics, admin, community
 
 # Database Initialization & Seeding
 def seed_demo_data():
@@ -227,6 +227,7 @@ app.include_router(spaces.router)
 app.include_router(proposals.router)
 app.include_router(analytics.router)
 app.include_router(admin.router)
+app.include_router(community.router)
 
 # Mount directories
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -241,6 +242,20 @@ app.mount("/uploads", StaticFiles(directory=UPLOADS_DIR), name="uploads")
 app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
 app.mount("/css", StaticFiles(directory=os.path.join(FRONTEND_DIR, "css")), name="css")
 app.mount("/js", StaticFiles(directory=os.path.join(FRONTEND_DIR, "js")), name="js")
+
+@app.get("/manifest.json")
+def serve_manifest():
+    manifest_path = os.path.join(FRONTEND_DIR, "manifest.json")
+    if os.path.exists(manifest_path):
+        return FileResponse(manifest_path, media_type="application/manifest+json")
+    return FileResponse(os.path.join(FRONTEND_DIR, "manifest.json"))
+
+@app.get("/sw.js")
+def serve_sw():
+    sw_path = os.path.join(FRONTEND_DIR, "sw.js")
+    if os.path.exists(sw_path):
+        return FileResponse(sw_path, media_type="application/javascript")
+    return {"message": "Service worker not found"}
 
 @app.get("/")
 def serve_index():

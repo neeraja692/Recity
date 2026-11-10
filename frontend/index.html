@@ -19,6 +19,13 @@
 
   <!-- ReCity Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- PWA & Mobile Optimization -->
+  <meta name="theme-color" content="#0f4435">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  
+  <!-- Community Extension Stylesheet (FAB, <=900px Overrides, Action Cards) -->
+  <link rel="stylesheet" href="css/community.css">
 </head>
 <body>
 
@@ -621,31 +628,31 @@
         </div>
 
         <div class="team-member-grid">
-          <!-- Member 1 -->
+          <!-- Member 1 — Neeraja (SWAPPED to position 1) -->
           <div class="member-card">
-            <div class="member-avatar">M1</div>
-            <div class="member-role">Frontend & UI/UX</div>
-            <div class="member-name">Member 1</div>
-            <div class="member-deliverable">
-              <strong>Deliverable:</strong> Interactive Landing Page, Before/After Visualizer Slider, Space Report Wizard, and 3-Futures Cards.
-            </div>
-          </div>
-
-          <!-- Member 2 -->
-          <div class="member-card">
-            <div class="member-avatar">M2</div>
+            <div class="member-avatar">N</div>
             <div class="member-role">Backend & Database</div>
-            <div class="member-name">Member 2</div>
+            <div class="member-name">Neeraja</div>
             <div class="member-deliverable">
               <strong>Deliverable:</strong> FastAPI microservices, SQLite schema models, CRUD APIs, file upload storage, and CORS routing.
             </div>
           </div>
 
+          <!-- Member 2 — Shreya (SWAPPED to position 2) -->
+          <div class="member-card">
+            <div class="member-avatar">S</div>
+            <div class="member-role">Frontend & UI/UX</div>
+            <div class="member-name">Shreya</div>
+            <div class="member-deliverable">
+              <strong>Deliverable:</strong> Interactive Landing Page, Before/After Visualizer Slider, Space Report Wizard, and 3-Futures Cards.
+            </div>
+          </div>
+
           <!-- Member 3 -->
           <div class="member-card">
-            <div class="member-avatar">M3</div>
+            <div class="member-avatar">B</div>
             <div class="member-role">AI & Spatial Reasoning</div>
-            <div class="member-name">Member 3</div>
+            <div class="member-name">Bhakti</div>
             <div class="member-deliverable">
               <strong>Deliverable:</strong> Multiple-Future Generator, Community Need Matching Engine, and Phased Tactical Urbanism planning logic.
             </div>
@@ -653,9 +660,9 @@
 
           <!-- Member 4 -->
           <div class="member-card">
-            <div class="member-avatar">M4</div>
+            <div class="member-avatar">A</div>
             <div class="member-role">Maps & Impact Analytics</div>
-            <div class="member-name">Member 4</div>
+            <div class="member-name">Arya</div>
             <div class="member-deliverable">
               <strong>Deliverable:</strong> Leaflet.js interactive OpenStreetMap, Chart.js multi-dimensional charts, and Priority Score composite formula.
             </div>
@@ -663,9 +670,9 @@
 
           <!-- Member 5 -->
           <div class="member-card">
-            <div class="member-avatar">M5</div>
+            <div class="member-avatar">P</div>
             <div class="member-role">Integration & Feasibility</div>
-            <div class="member-name">Member 5</div>
+            <div class="member-name">Purvesha</div>
             <div class="member-deliverable">
               <strong>Deliverable:</strong> Itemized Cost Estimator, Official Redevelopment Dossier PDF generator, and municipal governance workflow.
             </div>
@@ -715,6 +722,8 @@
 <script src="js/map.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/app.js"></script>
+<script src="js/community.js"></script>
 
+<button class="fab-report-btn" aria-label="Report a Neglected Urban Space">📸 <span>Report Space</span></button>
 </body>
 </html>
